@@ -37,6 +37,12 @@ module.exports = (RED) => {
 					return
 				}
 
+				if (outputSize !== "full" && outputSize !== "compact") {
+					this.warn(`Bad "outputSize" property, expecting one of "full" or "compact", got "${outputSize}"`)
+					Done()
+					return
+				}
+
 				this.debug(`Requesting stock intraday data for ${symbol} with ${interval} interval`)
 
 				const result = api.util.polish(await api.data.intraday(symbol, outputSize, "json", `${interval}min`))

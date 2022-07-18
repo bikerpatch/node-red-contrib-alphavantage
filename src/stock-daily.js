@@ -31,17 +31,19 @@ module.exports = (RED) => {
 					return
 				}
 
+				if (outputSize !== "full" && outputSize !== "compact") {
+					this.warn(`Bad "outputSize" property, expecting one of "full" or "compact", got "${outputSize}"`)
+					Done()
+					return
+				}
+
 				this.debug(`Requesting stock time series daily data for ${symbol}`)
 
 				const result = api.util.polish(await api.data.daily(symbol, outputSize, "json"))
 
-				result.series = mapSeriesObj(result.data) // backward compat
-				result.seriesArray = mapSeriesArray(result.data) // new array
-				result.data = mapData(result.meta) // backward compat
-				
-				delete(result.meta)
-
-				msg.payload = result
+				msg.payload.series = mapSeriesObj(result.data) // backward compat
+				msg.payload.seriesArray = mapSeriesArray(result.data) // new array
+				msg.payload.data = mapData(result.meta) // backward compat
 
 				Send(msg)
 				Done()

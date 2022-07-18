@@ -31,9 +31,7 @@ module.exports = (RED) => {
 
 				const result = api.util.polish(await api.data.quote(symbol, "compact", "json"))
 
-				result.data = mapQuoteObj(result.data)
-
-				msg.payload = result.data
+				msg.payload = mapQuoteObj(result.data)
 
 				Send(msg)
 				Done()
