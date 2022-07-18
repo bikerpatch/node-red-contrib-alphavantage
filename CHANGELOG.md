@@ -1,5 +1,9 @@
 # node-red-contrib-alphavantage - Change Log
 
+## [0.2.1] - 19/07/2022
+
+- Better error catching of bad parameter values
+
 ## [0.2.0] - 18/07/2022
 
 - Changed node names to make them unique
