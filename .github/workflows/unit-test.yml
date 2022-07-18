@@ -26,8 +26,8 @@ env: # environment variables (available in any part of the action)
   NODE_VERSION: 18
  
 jobs: # list of things to do
-  linting:
-    name: Linting # job name (unique id)
+  tests:
+    name: Unit Tests # job name (unique id)
     runs-on: ubuntu-latest # on which machine to run
     steps: # list of steps
       - name: Install NodeJS
@@ -41,5 +41,5 @@ jobs: # list of things to do
       - name: Install Dependencies
         run: npm ci
  
-      - name: Code Linting
+      - name: Unit Tests
         run: npm run test
