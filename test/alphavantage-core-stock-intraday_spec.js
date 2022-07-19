@@ -363,6 +363,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("series", 
 						{
 							"2022-07-15 20:00:00": {
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
 								"open": 256.8800,
 								"high": 256.8900,
 								"low": 256.7900,
@@ -370,6 +371,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1993
 							},
 							"2022-07-15 19:45:00": {
+								"timestamp": "2022-07-15T19:45:00.000-04:00",
 								"open": 256.81,
 								"high": 256.89,
 								"low": 256.8,
@@ -377,6 +379,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1015
 							},
 							"2022-07-15 19:30:00": {
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -388,7 +391,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("seriesArray", 
 						[
 							{
-								"timestamp": "2022-07-15T19:00:00.000Z",
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
+								"datetime": "2022-07-15 20:00:00",
 								"open": 256.88,
 								"high": 256.89,
 								"low": 256.79,
@@ -396,7 +400,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1993
 							},
 							{
-								"timestamp": "2022-07-15T18:45:00.000Z",
+								"timestamp": "2022-07-15T19:45:00.000-04:00",
+								"datetime": "2022-07-15 19:45:00",
 								"open": 256.8100,
 								"high": 256.8900,
 								"low": 256.8000,
@@ -404,7 +409,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1015
 							},
 							{
-								"timestamp": "2022-07-15T18:30:00.000Z",
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
+								"datetime": "2022-07-15 19:30:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -464,6 +470,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("series", 
 						{
 							"2022-07-15 20:00:00": {
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
 								"open": 256.8800,
 								"high": 256.8900,
 								"low": 256.7900,
@@ -471,6 +478,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1993
 							},
 							"2022-07-15 19:45:00": {
+								"timestamp": "2022-07-15T19:45:00.000-04:00",
 								"open": 256.81,
 								"high": 256.89,
 								"low": 256.8,
@@ -478,6 +486,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1015
 							},
 							"2022-07-15 19:30:00": {
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -489,7 +498,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("seriesArray", 
 						[
 							{
-								"timestamp": "2022-07-15T19:00:00.000Z",
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
+								"datetime": "2022-07-15 20:00:00",
 								"open": 256.88,
 								"high": 256.89,
 								"low": 256.79,
@@ -497,7 +507,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1993
 							},
 							{
-								"timestamp": "2022-07-15T18:45:00.000Z",
+								"timestamp": "2022-07-15T19:45:00.000-04:00",
+								"datetime": "2022-07-15 19:45:00",
 								"open": 256.8100,
 								"high": 256.8900,
 								"low": 256.8000,
@@ -505,7 +516,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 1015
 							},
 							{
-								"timestamp": "2022-07-15T18:30:00.000Z",
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
+								"datetime": "2022-07-15 19:30:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -862,6 +874,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("series", 
 						{
 							"2022-07-15 20:00:00": {
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
 								"open": 256.81,
 								"high": 256.89,
 								"low": 256.79,
@@ -869,6 +882,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 3008
 							},
 							"2022-07-15 19:30:00": {
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -876,6 +890,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 2057
 							},
 							"2022-07-15 19:00:00": {
+								"timestamp": "2022-07-15T19:00:00.000-04:00",
 								"open": 256.69,
 								"high": 256.7,
 								"low": 256.69,
@@ -887,7 +902,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("seriesArray", 
 						[
 							{
-								"timestamp": "2022-07-15T19:00:00.000Z",
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
+								"datetime": "2022-07-15 20:00:00",
 								"open": 256.81,
 								"high": 256.89,
 								"low": 256.79,
@@ -895,7 +911,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 3008
 							},
 							{
-								"timestamp": "2022-07-15T18:30:00.000Z",
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
+								"datetime": "2022-07-15 19:30:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -903,7 +920,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 2057
 							},
 							{
-								"timestamp": "2022-07-15T18:00:00.000Z",
+								"timestamp": "2022-07-15T19:00:00.000-04:00",
+								"datetime": "2022-07-15 19:00:00",
 								"open": 256.69,
 								"high": 256.7,
 								"low": 256.69,
@@ -969,6 +987,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("series", 
 						{
 							"2022-07-15 20:00:00": {
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
 								"open": 256.81,
 								"high": 256.89,
 								"low": 256.79,
@@ -976,6 +995,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 3008
 							},
 							"2022-07-15 19:30:00": {
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -983,6 +1003,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 2057
 							},
 							"2022-07-15 19:00:00": {
+								"timestamp": "2022-07-15T19:00:00.000-04:00",
 								"open": 256.69,
 								"high": 256.7,
 								"low": 256.69,
@@ -994,7 +1015,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("seriesArray", 
 						[
 							{
-								"timestamp": "2022-07-15T19:00:00.000Z",
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
+								"datetime": "2022-07-15 20:00:00",
 								"open": 256.81,
 								"high": 256.89,
 								"low": 256.79,
@@ -1002,7 +1024,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 3008
 							},
 							{
-								"timestamp": "2022-07-15T18:30:00.000Z",
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
+								"datetime": "2022-07-15 19:30:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
@@ -1010,7 +1033,8 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 								"volume": 2057
 							},
 							{
-								"timestamp": "2022-07-15T18:00:00.000Z",
+								"timestamp": "2022-07-15T19:00:00.000-04:00",
+								"datetime": "2022-07-15 19:00:00",
 								"open": 256.69,
 								"high": 256.7,
 								"low": 256.69,
@@ -1030,12 +1054,6 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 	})
 
 	it("interval - string conversion", function (done) {
-
-		avStub.restore()
-		avStub = sinon.stub(apiUtil, "setClient").returns({
-			data: { intraday: sinon.fake.resolves(RESULT_SUCCESS_COMPACT_30M) },
-			util: { polish: sinon.fake.returns(RESULT_POLISH_COMPACT_30M) },
-		})
 
 		var flow = 
 		[
@@ -1065,9 +1083,9 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 				try {
 					msg.payload.should.have.property("data", 
 						{
-							"information": "Intraday (30min) open, high, low, close prices and volume",
+							"information": "Intraday (15min) open, high, low, close prices and volume",
 							"symbol": "MSFT",
-							"interval": "30min",
+							"interval": "15min",
 							"last_refreshed": "2022-07-15 20:00:00",
 							"output_size": "Compact",
 							"time_zone": "US/Eastern"
@@ -1076,53 +1094,59 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					msg.payload.should.have.property("series", 
 						{
 							"2022-07-15 20:00:00": {
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
+								"open": 256.8800,
+								"high": 256.8900,
+								"low": 256.7900,
+								"close": 256.7900,
+								"volume": 1993
+							},
+							"2022-07-15 19:45:00": {
+								"timestamp": "2022-07-15T19:45:00.000-04:00",
 								"open": 256.81,
 								"high": 256.89,
-								"low": 256.79,
-								"close": 256.79,
-								"volume": 3008
+								"low": 256.8,
+								"close": 256.8,
+								"volume": 1015
 							},
 							"2022-07-15 19:30:00": {
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
 								"close": 256.84,
-								"volume": 2057
-							},
-							"2022-07-15 19:00:00": {
-								"open": 256.69,
-								"high": 256.7,
-								"low": 256.69,
-								"close": 256.7,
-								"volume": 506
+								"volume": 1954
 							}
 						})
 
 					msg.payload.should.have.property("seriesArray", 
 						[
 							{
-								"timestamp": "2022-07-15T19:00:00.000Z",
-								"open": 256.81,
+								"timestamp": "2022-07-15T20:00:00.000-04:00",
+								"datetime": "2022-07-15 20:00:00",
+								"open": 256.88,
 								"high": 256.89,
 								"low": 256.79,
 								"close": 256.79,
-								"volume": 3008
+								"volume": 1993
 							},
 							{
-								"timestamp": "2022-07-15T18:30:00.000Z",
+								"timestamp": "2022-07-15T19:45:00.000-04:00",
+								"datetime": "2022-07-15 19:45:00",
+								"open": 256.8100,
+								"high": 256.8900,
+								"low": 256.8000,
+								"close": 256.8000,
+								"volume": 1015
+							},
+							{
+								"timestamp": "2022-07-15T19:30:00.000-04:00",
+								"datetime": "2022-07-15 19:30:00",
 								"open": 256.75,
 								"high": 256.84,
 								"low": 256.75,
 								"close": 256.84,
-								"volume": 2057
-							},
-							{
-								"timestamp": "2022-07-15T18:00:00.000Z",
-								"open": 256.69,
-								"high": 256.7,
-								"low": 256.69,
-								"close": 256.7,
-								"volume": 506
+								"volume": 1954
 							}
 						])
 
@@ -1131,7 +1155,7 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 					done(err)
 				}
 			})
-			n1.receive({ payload: {}, interval: "30" })
+			n1.receive({ payload: {}, interval: "15" })
 			
 		})
 	})

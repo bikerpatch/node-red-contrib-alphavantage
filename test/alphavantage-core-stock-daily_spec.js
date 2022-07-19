@@ -285,21 +285,21 @@ describe("Node: alphavantage-core-stock-daily", function () {
 
 					msg.payload.should.have.property("series", 
 						{
-							"2022-07-18 01:00:00": {
+							"2022-07-18": {
 								"open": 259.75,
 								"high": 260.84,
 								"low": 253.3,
 								"close": 254.25,
 								"volume": 20942548
 							},
-							"2022-07-15 01:00:00": {
+							"2022-07-15": {
 								"open": 255.72,
 								"high": 260.3699,
 								"low": 254.7727,
 								"close": 256.72,
 								"volume": 29774050
 							},
-							"2022-07-14 01:00:00": {
+							"2022-07-14": {
 								"open": 250.57,
 								"high": 255.1374,
 								"low": 245.94,
@@ -311,7 +311,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 					msg.payload.should.have.property("seriesArray", 
 						[
 							{
-								"timestamp": "2022-07-18T00:00:00.000Z",
+								"date": "2022-07-18",
 								"open": 259.75,
 								"high": 260.84,
 								"low": 253.3,
@@ -319,7 +319,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 								"volume": 20942548
 							},
 							{
-								"timestamp": "2022-07-15T00:00:00.000Z",
+								"date": "2022-07-15",
 								"open": 255.72,
 								"high": 260.3699,
 								"low": 254.7727,
@@ -327,7 +327,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 								"volume": 29774050
 							},
 							{
-								"timestamp": "2022-07-14T00:00:00.000Z",
+								"date": "2022-07-14",
 								"open": 250.57,
 								"high": 255.1374,
 								"low": 245.94,
@@ -385,21 +385,21 @@ describe("Node: alphavantage-core-stock-daily", function () {
 
 					msg.payload.should.have.property("series", 
 						{
-							"2022-07-18 01:00:00": {
+							"2022-07-18": {
 								"open": 259.75,
 								"high": 260.84,
 								"low": 253.3,
 								"close": 254.25,
 								"volume": 20942548
 							},
-							"2022-07-15 01:00:00": {
+							"2022-07-15": {
 								"open": 255.72,
 								"high": 260.3699,
 								"low": 254.7727,
 								"close": 256.72,
 								"volume": 29774050
 							},
-							"2022-07-14 01:00:00": {
+							"2022-07-14": {
 								"open": 250.57,
 								"high": 255.1374,
 								"low": 245.94,
@@ -411,7 +411,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 					msg.payload.should.have.property("seriesArray", 
 						[
 							{
-								"timestamp": "2022-07-18T00:00:00.000Z",
+								"date": "2022-07-18",
 								"open": 259.75,
 								"high": 260.84,
 								"low": 253.3,
@@ -419,7 +419,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 								"volume": 20942548
 							},
 							{
-								"timestamp": "2022-07-15T00:00:00.000Z",
+								"date": "2022-07-15",
 								"open": 255.72,
 								"high": 260.3699,
 								"low": 254.7727,
@@ -427,7 +427,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 								"volume": 29774050
 							},
 							{
-								"timestamp": "2022-07-14T00:00:00.000Z",
+								"date": "2022-07-14",
 								"open": 250.57,
 								"high": 255.1374,
 								"low": 245.94,
