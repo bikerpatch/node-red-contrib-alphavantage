@@ -48,7 +48,7 @@ function mapSeriesObj(seriesObj, timeseriesType, timezone = "US/Eastern") {
 	var returnVar = {}
 	Object.keys(seriesObj).forEach((key) => {
 
-		var timestamp = DateTime.fromJSDate(new Date(key))
+		var timestamp = DateTime.fromISO(key)
 		timestamp = timestamp.setZone(timezone, { keepLocalTime: true })
 
 		var format = "yyyy-MM-dd"
@@ -90,7 +90,7 @@ function mapSeriesArray(seriesObj, timeseriesType, timezone = "US/Eastern") {
 			}
 		})
 
-		var timestamp = DateTime.fromJSDate(new Date(key))
+		var timestamp = DateTime.fromISO(key)
 		timestamp = timestamp.setZone(timezone, { keepLocalTime: true })
 
 		if (timeseriesType === "Timestamp") {
