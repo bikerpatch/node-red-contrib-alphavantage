@@ -1,12 +1,10 @@
 const helper = require("node-red-node-test-helper")
 const avConfig = require("../src/config")
 const sinon = require("sinon")
-var proxyquire = require("proxyquire").noPreserveCache()
+const apiUtil = require("../src/util/api")
+const avNode = require("../src/stock-daily")
 
 helper.init(require.resolve("node-red"))
-
-var avNode // the module to test
-var avApiStub
 
 const RESULT_SUCCESS_COMPACT = {
 	"Meta Data": {
@@ -114,11 +112,7 @@ const RESULT_POLISH_FULL = {
 	}
 }
 
-
-avApiStub = {
-	data: { daily: sinon.fake.resolves(RESULT_SUCCESS_COMPACT) },
-	util: { polish: sinon.fake.returns(RESULT_POLISH_COMPACT) },
-}
+var avStub
 
 describe("Node: alphavantage-core-stock-daily", function () {
 
@@ -126,17 +120,18 @@ describe("Node: alphavantage-core-stock-daily", function () {
 
 	beforeEach(function (done) {
 
-		helper.startServer(done)
-
-		avNode = proxyquire("../src/stock-daily", {
-			"./util/api": {
-				setClient: function () { return avApiStub }
-			},
+		avStub = sinon.stub(apiUtil, "setClient").returns({
+			data: { daily: sinon.fake.resolves(RESULT_SUCCESS_COMPACT) },
+			util: { polish: sinon.fake.returns(RESULT_POLISH_COMPACT) },
 		})
+
+		helper.startServer(done)
 
 	})
   
 	afterEach(function (done) {
+
+		avStub.restore()
 
 		helper.unload()
 		helper.stopServer(done)
@@ -168,15 +163,52 @@ describe("Node: alphavantage-core-stock-daily", function () {
 		})
 	})
 
+	it("tier threshold reached", function (done) {
+
+		avStub.restore()
+		avStub = sinon.stub(apiUtil, "setClient").returns({
+			data: { daily: sinon.stub().throws("An AlphaVantage error occurred. {\"Note\":\"Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.\"}") },
+			util: { polish: sinon.stub().throws("An AlphaVantage error occurred. {\"Note\":\"Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.\"}") },
+		})
+
+		var flow = 
+		[
+			{
+				id: "n1",
+				type: "alphavantage-core-stock-daily",
+				name: "stock daily test",
+				apiConfig: "nc",
+				symbol: "MSFT",
+				outputSize: "compact",
+				wires: [["n2"]]
+			}, 
+			{
+				id: "nc",
+				type: "alphavantage-api-config",
+				name: "api key",
+				apiKey: "demo"
+			},
+			{ id: "n2", type: "helper" }
+		]
+		helper.load([avConfig, avNode], flow, () => {
+			var n1 = helper.getNode("n1")
+			n1.on("call:error", call => {
+
+				try {
+					call.should.be.calledWithExactly(`Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.`)
+					done()
+
+				} catch(err) {
+					done(err)
+				}
+			})
+			n1.receive({ })
+		})
+	})
+
 	it("override apiKey", function (done) {
 
-		var newApiKey
-
-		avNode = proxyquire("../src/stock-daily", {
-			"./util/api": {
-				setClient: function (apiKey) { newApiKey = apiKey; return avApiStub }
-			},
-		})
+		var newApiKey = "mynewkey"
 
 		var flow = 
 		[
@@ -203,14 +235,13 @@ describe("Node: alphavantage-core-stock-daily", function () {
 			n2.on("input", function () {
 				
 				try {
-					
-					newApiKey.should.be.equal("mynewkey")
+					avStub.should.be.calledWithExactly(newApiKey)
 					done()
 				} catch(err) {
 					done(err)
 				}
 			})
-			n1.receive({ apiKey: "mynewkey" })
+			n1.receive({ apiKey: newApiKey })
 		})
 	})
 
@@ -573,15 +604,10 @@ describe("Node: alphavantage-core-stock-daily", function () {
 
 	it("outputSize full - configured", function (done) {
 
-		var avApiStub = {
+		avStub.restore()
+		avStub = sinon.stub(apiUtil, "setClient").returns({
 			data: { daily: sinon.fake.resolves(RESULT_SUCCESS_FULL) },
 			util: { polish: sinon.fake.returns(RESULT_POLISH_FULL) },
-		}
-
-		avNode = proxyquire("../src/stock-daily", {
-			"./util/api": {
-				setClient: function () { return avApiStub },
-			},
 		})
 
 		var flow = 
@@ -626,15 +652,10 @@ describe("Node: alphavantage-core-stock-daily", function () {
 
 	it("outputSize full - parameter", function (done) {
 
-		var avApiStub = {
+		avStub.restore()
+		avStub = sinon.stub(apiUtil, "setClient").returns({
 			data: { daily: sinon.fake.resolves(RESULT_SUCCESS_FULL) },
 			util: { polish: sinon.fake.returns(RESULT_POLISH_FULL) },
-		}
-
-		avNode = proxyquire("../src/stock-daily", {
-			"./util/api": {
-				setClient: function () { return avApiStub },
-			},
 		})
 
 		var flow = 

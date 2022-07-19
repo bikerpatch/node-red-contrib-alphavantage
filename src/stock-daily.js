@@ -1,7 +1,4 @@
-const { setClient,
-	mapData,
-	mapSeriesObj,
-	mapSeriesArray } = require("./util/api")
+const apiUtil = require("./util/api")
 const wrapDone = require("./util/wrapDone")
 const wrapSend = require("./util/wrapSend")
 
@@ -19,7 +16,7 @@ module.exports = (RED) => {
 			try {
 
 				const apiConfig = RED.nodes.getNode(config.apiConfig)
-				const api = setClient(msg.apiKey || apiConfig.apiKey )
+				const api = apiUtil.setClient(msg.apiKey || apiConfig.apiKey )
 
 				const symbol = msg.symbol || config.symbol
 				const outputSize = msg.outputSize || config.outputSize || "compact"
@@ -48,15 +45,19 @@ module.exports = (RED) => {
 				Send(msg)
 				Done()
 
-			} catch(error) {
-				if (typeof error === "string") {
+			} catch (error) {
+
+				if (error.name && error.name.startsWith("An AlphaVantage error occurred")) {
+					this.error(apiUtil.processAVError(error))
+				} else if (typeof error === "string") {
+
 					this.error(error)
-					Done(error)
-					return
+				} else {
+					this.error(JSON.stringify(error))
 				}
 
-				this.error(`${JSON.stringify(error)}`)
-				Done(error)
+				return
+				
 			}
 		})
 	})

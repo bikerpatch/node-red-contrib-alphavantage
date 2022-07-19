@@ -1,12 +1,10 @@
 const helper = require("node-red-node-test-helper")
 const avConfig = require("../src/config")
 const sinon = require("sinon")
-var proxyquire = require("proxyquire").noPreserveCache()
+const apiUtil = require("../src/util/api")
+const avNode = require("../src/stock-quote")
 
 helper.init(require.resolve("node-red"))
-
-var avNode // the module to test
-var avApiStub
 
 const RESULT_SUCCESS = {
 	"Global Quote": {
@@ -38,10 +36,7 @@ const RESULT_POLISH = {
 	}
 }
 
-avApiStub = {
-	data: { quote: sinon.fake.resolves(RESULT_SUCCESS) },
-	util: { polish: sinon.fake.returns(RESULT_POLISH) },
-}
+var avStub
 
 describe("Node: alphavantage-core-stock-quote", function () {
 
@@ -49,17 +44,19 @@ describe("Node: alphavantage-core-stock-quote", function () {
 
 	beforeEach(function (done) {
 
-		helper.startServer(done)
-
-		avNode = proxyquire("../src/stock-quote", {
-			"./util/api": {
-				setClient: function () { return avApiStub }
-			},
+		avStub = sinon.stub(apiUtil, "setClient").returns({
+			data: { quote: sinon.fake.resolves(RESULT_SUCCESS) },
+			util: { polish: sinon.fake.returns(RESULT_POLISH) },
 		})
+
+		helper.startServer(done)
 
 	})
   
 	afterEach(function (done) {
+
+		avStub.restore()
+
 		helper.unload()
 		helper.stopServer(done)
 	})
@@ -91,15 +88,51 @@ describe("Node: alphavantage-core-stock-quote", function () {
 		})
 	})
 
+	it("tier threshold reached", function (done) {
+
+		avStub.restore()
+		avStub = sinon.stub(apiUtil, "setClient").returns({
+			data: { quote: sinon.stub().throws("An AlphaVantage error occurred. {\"Note\":\"Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.\"}") },
+			util: { polish: sinon.stub().throws("An AlphaVantage error occurred. {\"Note\":\"Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.\"}") },
+		})
+
+		var flow = 
+		[
+			{
+				id: "n1",
+				type: "alphavantage-core-stock-quote",
+				name: "stock quote test",
+				apiConfig: "nc",
+				symbol: "MSFT",
+				wires: [["n2"]]
+			}, 
+			{
+				id: "nc",
+				type: "alphavantage-api-config",
+				name: "api key",
+				apiKey: "demo"
+			},
+			{ id: "n2", type: "helper" }
+		]
+		helper.load([avConfig, avNode], flow, () => {
+			var n1 = helper.getNode("n1")
+			n1.on("call:error", call => {
+
+				try {
+					call.should.be.calledWithExactly(`Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.`)
+					done()
+
+				} catch(err) {
+					done(err)
+				}
+			})
+			n1.receive({ })
+		})
+	})
+
 	it("override apiKey", function (done) {
 
-		var newApiKey
-
-		avNode = proxyquire("../src/stock-quote", {
-			"./util/api": {
-				setClient: function (apiKey) { newApiKey = apiKey; return avApiStub }
-			},
-		})
+		var newApiKey = "mynewkey"
 
 		var flow = 
 		[
@@ -125,13 +158,13 @@ describe("Node: alphavantage-core-stock-quote", function () {
 			n2.on("input", function () {
 				
 				try {
-					newApiKey.should.be.equal("mynewkey")
+					avStub.should.be.calledWithExactly(newApiKey)
 					done()
 				} catch(err) {
 					done(err)
 				}
 			})
-			n1.receive({ apiKey: "mynewkey" })
+			n1.receive({ apiKey: newApiKey })
 		})
 	})
 

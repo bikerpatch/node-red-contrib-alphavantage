@@ -3,6 +3,7 @@
 ## [0.2.1] - 19/07/2022
 
 - Better error catching of bad parameter values
+- Catch errors to do with API rate limit
 
 ## [0.2.0] - 18/07/2022
 
