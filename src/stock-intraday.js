@@ -54,14 +54,11 @@ module.exports = (RED) => {
 
 				const timeSeriesKey = `Time Series (${intervalStr}min)`
 
-				result.data = mapData(result.meta) // backward compat
-				result.series = mapSeriesObj(result[timeSeriesKey]) // backward compat
-				result.seriesArray = mapSeriesArray(result[timeSeriesKey]) // new array
-				
-				delete(result.meta)
-				delete(result[timeSeriesKey])
-
-				msg.payload = result
+				msg.payload = {
+					data: apiUtil.mapData(result.meta), // backward compat
+					series: apiUtil.mapSeriesObj(result[timeSeriesKey]), // backward compat
+					seriesArray: apiUtil.mapSeriesArray(result[timeSeriesKey]), // new array
+				}
 
 				Send(msg)
 				Done()
