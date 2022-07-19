@@ -1,7 +1,4 @@
-const { setClient,
-	mapData,
-	mapSeriesObj,
-	mapSeriesArray } = require("./util/api")
+const apiUtil = require("./util/api")
 const wrapDone = require("./util/wrapDone")
 const wrapSend = require("./util/wrapSend")
 
@@ -19,12 +16,12 @@ module.exports = (RED) => {
 			try {
 
 				const apiConfig = RED.nodes.getNode(config.apiConfig)
-				const api = setClient(msg.apiKey || apiConfig.apiKey )
+				const api = apiUtil.setClient(msg.apiKey || apiConfig.apiKey)
 
 				const symbol = msg.symbol || config.symbol
 				const interval = msg.interval || config.interval
 				const outputSize = msg.outputSize || config.outputSize || "compact"
-                
+
 
 				if (!symbol || symbol === "") {
 					this.warn("Missing \"symbol\" property")
@@ -37,11 +34,25 @@ module.exports = (RED) => {
 					return
 				}
 
-				this.debug(`Requesting stock intraday data for ${symbol} with ${interval} interval`)
+				const intervalStr = interval.toString()
 
-				const result = api.util.polish(await api.data.intraday(symbol, outputSize, "json", `${interval}min`))
+				if (!["1", "5", "15", "30", "60"].includes(intervalStr)) {
+					this.warn(`Bad "interval" property, expecting one of 1, 5, 15, 30, 60, got "${intervalStr}"`)
+					Done()
+					return
+				}
 
-				const timeSeriesKey = `Time Series (${interval}min)`
+				if (outputSize !== "full" && outputSize !== "compact") {
+					this.warn(`Bad "outputSize" property, expecting one of "full" or "compact", got "${outputSize}"`)
+					Done()
+					return
+				}
+
+				this.debug(`Requesting stock intraday data for ${symbol} with ${intervalStr} interval`)
+
+				const result = api.util.polish(await api.data.intraday(symbol, outputSize, "json", `${intervalStr}min`))
+
+				const timeSeriesKey = `Time Series (${intervalStr}min)`
 
 				result.data = mapData(result.meta) // backward compat
 				result.series = mapSeriesObj(result[timeSeriesKey]) // backward compat
@@ -55,15 +66,19 @@ module.exports = (RED) => {
 				Send(msg)
 				Done()
 
-			} catch(error) {
-				if (typeof error === "string") {
+			} catch (error) {
+
+				if (error.name && error.name.startsWith("An AlphaVantage error occurred")) {
+					this.error(apiUtil.processAVError(error))
+				} else if (typeof error === "string") {
+
 					this.error(error)
-					Done(error)
-					return
+				} else {
+					this.error(JSON.stringify(error))
 				}
 
-				this.error(`${JSON.stringify(error)}`)
-				Done(error)
+				return
+				
 			}
 		})
 	})

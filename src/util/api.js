@@ -93,11 +93,24 @@ function mapSeriesArray(seriesObj) {
 	return returnVar
 }
 
+function processAVError(error) {
+	try {
+		const regex = /^An AlphaVantage error occurred. (\{{1}.*\}{1})$/
+		var errorMessage = JSON.parse(error.name.match(regex)[1])
+
+		return errorMessage.Note
+
+	} catch(e1) {
+		return `Cannot dereference ${error.name}: ${e1}..  Original error ${JSON.stringify(error)}`
+	}
+}
+
 
 module.exports = {
 	setClient,
 	mapData,
 	mapQuoteObj,
 	mapSeriesObj,
-	mapSeriesArray
+	mapSeriesArray,
+	processAVError
 }
