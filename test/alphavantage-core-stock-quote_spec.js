@@ -195,16 +195,18 @@ describe("Node: alphavantage-core-stock-quote", function () {
 				
 				try {
 					
-					msg.payload.should.have.property("symbol", "MSFT")
-					msg.payload.should.have.property("open", 259.75)
-					msg.payload.should.have.property("high", 260.84)
-					msg.payload.should.have.property("low", 253.3)
-					msg.payload.should.have.property("price", 254.25)
-					msg.payload.should.have.property("volume", 20957772)
-					msg.payload.should.have.property("latest_trading_day", "2022-07-18")
-					msg.payload.should.have.property("prev_close", 256.72)
-					msg.payload.should.have.property("change", -2.47)
-					msg.payload.should.have.property("change_percent", -0.009621)
+					msg.should.have.property("payload", {
+						"symbol": "MSFT",
+						"open": 259.75,
+						"high": 260.84,
+						"low": 253.3,
+						"price": 254.25,
+						"volume": 20957772,
+						"latest_trading_day": "2022-07-18",
+						"prev_close": 256.72,
+						"change": -2.47,
+						"change_percent": -0.009621
+					})
 		
 					done()
 				} catch(err) {
@@ -241,16 +243,18 @@ describe("Node: alphavantage-core-stock-quote", function () {
 				
 				try {
 
-					msg.payload.should.have.property("symbol", "MSFT")
-					msg.payload.should.have.property("open", 259.75)
-					msg.payload.should.have.property("high", 260.84)
-					msg.payload.should.have.property("low", 253.3)
-					msg.payload.should.have.property("price", 254.25)
-					msg.payload.should.have.property("volume", 20957772)
-					msg.payload.should.have.property("latest_trading_day", "2022-07-18")
-					msg.payload.should.have.property("prev_close", 256.72)
-					msg.payload.should.have.property("change", -2.47)
-					msg.payload.should.have.property("change_percent", -0.009621)
+					msg.should.have.property("payload", {
+						"symbol": "MSFT",
+						"open": 259.75,
+						"high": 260.84,
+						"low": 253.3,
+						"price": 254.25,
+						"volume": 20957772,
+						"latest_trading_day": "2022-07-18",
+						"prev_close": 256.72,
+						"change": -2.47,
+						"change_percent": -0.009621
+					})
 
 					done()
 				} catch(err) {

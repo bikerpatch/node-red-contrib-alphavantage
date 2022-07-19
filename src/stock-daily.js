@@ -39,8 +39,8 @@ module.exports = (RED) => {
 				const result = api.util.polish(await api.data.daily(symbol, outputSize, "json"))
 
 				msg.payload = {
-					series: apiUtil.mapSeriesObj(result.data), // backward compat
-					seriesArray: apiUtil.mapSeriesArray(result.data), // new array
+					series: apiUtil.mapSeriesObj(result.data, "Date", result.meta.zone), // backward compat
+					seriesArray: apiUtil.mapSeriesArray(result.data, "Date", result.meta.zone), // new array
 					data: apiUtil.mapData(result.meta) // backward compat
 				}
 
