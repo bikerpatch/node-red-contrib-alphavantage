@@ -48,12 +48,9 @@ function mapSeriesObj(seriesObj, timeseriesType, timezone = "US/Eastern") {
 	var returnVar = {}
 	Object.keys(seriesObj).forEach((key) => {
 
-		//2022-07-15T19:00:00.000Z
-		console.log(`key.replace(/T|Z|.000/," ") ${key.replace(/T|Z|.000/g," ")}`)
-		var timestamp = DateTime.fromFormat(key.replace(/T|Z|.000/g," ").trim(), "yyyy-MM-dd HH:mm:ss", { zone: timezone })
-		console.log(`timestamp.toISO() ${timestamp.toISO()}`)
-		// timestamp = timestamp.setZone(timezone, { keepLocalTime: false })
-
+		// we have to do this because package `alphavantage` returns the wrong date.  8pm Eastern will be provided as 7pm UTC, so we have to correct
+		var timestamp = DateTime.fromFormat(key.replace(/T|Z|.000/g," ").trim(), "yyyy-MM-dd HH:mm:ss", { zone: timezone }).plus({hours:1})
+		
 		var format = "yyyy-MM-dd"
 
 		if (timeseriesType === "Timestamp")
@@ -93,7 +90,8 @@ function mapSeriesArray(seriesObj, timeseriesType, timezone = "US/Eastern") {
 			}
 		})
 
-		var timestamp = DateTime.fromISO(key)
+		// we have to do this because package `alphavantage` returns the wrong date.  8pm Eastern will be provided as 7pm UTC, so we have to correct
+		var timestamp = DateTime.fromFormat(key.replace(/T|Z|.000/g," ").trim(), "yyyy-MM-dd HH:mm:ss", { zone: timezone }).plus({hours:1})
 		timestamp = timestamp.setZone(timezone, { keepLocalTime: false })
 
 		if (timeseriesType === "Timestamp") {
