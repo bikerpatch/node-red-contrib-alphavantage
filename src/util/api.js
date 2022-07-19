@@ -48,8 +48,11 @@ function mapSeriesObj(seriesObj, timeseriesType, timezone = "US/Eastern") {
 	var returnVar = {}
 	Object.keys(seriesObj).forEach((key) => {
 
-		var timestamp = DateTime.fromISO(key)
-		timestamp = timestamp.setZone(timezone, { keepLocalTime: false })
+		//2022-07-15T19:00:00.000Z
+		console.log(`key.replace(/T|Z|.000/," ") ${key.replace(/T|Z|.000/g," ")}`)
+		var timestamp = DateTime.fromFormat(key.replace(/T|Z|.000/g," ").trim(), "yyyy-MM-dd HH:mm:ss", { zone: timezone })
+		console.log(`timestamp.toISO() ${timestamp.toISO()}`)
+		// timestamp = timestamp.setZone(timezone, { keepLocalTime: false })
 
 		var format = "yyyy-MM-dd"
 
