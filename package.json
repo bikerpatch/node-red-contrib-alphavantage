@@ -11,7 +11,8 @@
         "url": "https://github.com/bikerpatch/node-red-contrib-alphavantage/issues"
     },
     "dependencies": {
-        "alphavantage": "^2.3.0"
+        "alphavantage": "^2.3.0",
+        "luxon": "^3.0.1"
     },
     "contributors": [
         {
@@ -51,7 +52,7 @@
     "license": "MIT",
     "devDependencies": {
         "eslint": "^8.20.0",
-        "mocha": "^10.0.0",
+        "mocha": "^6.2.3",
         "node-red": "^3.0.0",
         "node-red-node-test-helper": "^0.3.0",
         "proxyquire": "^2.1.3",
