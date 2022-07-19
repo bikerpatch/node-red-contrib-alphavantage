@@ -56,8 +56,8 @@ module.exports = (RED) => {
 
 				msg.payload = {
 					data: apiUtil.mapData(result.meta), // backward compat
-					series: apiUtil.mapSeriesObj(result[timeSeriesKey], "Timestamp", result.meta.zone), // backward compat
-					seriesArray: apiUtil.mapSeriesArray(result[timeSeriesKey], "Timestamp", result.meta.zone), // new array
+					series: apiUtil.mapSeriesObj(result[timeSeriesKey], apiUtil.timeseriesType.Timestamp, result.meta.zone), // backward compat
+					seriesArray: apiUtil.mapSeriesArray(result[timeSeriesKey], apiUtil.timeseriesType.Timestamp, result.meta.zone), // new array
 				}
 
 				Send(msg)
