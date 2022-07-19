@@ -6,6 +6,7 @@
 - Catch errors to do with API rate limit
 - [**Stock Time Series Daily node**] - **Bug Fix** Handle non-initialised `msg.payload` in response
 - [**Stock Time Series Intraday node**] - **Bug Fix** Handle non-initialised `msg.payload` in response
+- [**All nodes**] - **Bug Fix** Fixed date/time conversions to UTC
 
 ## [0.2.0] - 18/07/2022
 

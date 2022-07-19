@@ -1,6 +1,7 @@
 "use strict"
 
 const alphavantage = require("alphavantage")
+const { DateTime } = require("luxon")
 
 const FLOAT_VARS = ["open", "close", "high", "low", "price", "change", "prev_close"]
 const INT_VARS = ["volume"]
@@ -43,19 +44,19 @@ function mapQuoteObj(quoteObj) {
 	return returnVar
 }
 
-function mapSeriesObj(seriesObj) {
+function mapSeriesObj(seriesObj, timeseriesType, timezone = "US/Eastern") {
 	var returnVar = {}
 	Object.keys(seriesObj).forEach((key) => {
 
-		const keyDate = new Date(key)
-		const year = String(keyDate.getFullYear())
-		const month = String(keyDate.getMonth()+1).padStart(2,0)
-		const day = String(keyDate.getDate()).padStart(2,0)
-		const hours = String(keyDate.getHours()).padStart(2,0)
-		const mins = String(keyDate.getMinutes()).padStart(2,0)
-		const seconds = String(keyDate.getSeconds()).padStart(2,0)
+		// we have to do this because package `alphavantage` returns the wrong date.  8pm Eastern will be provided as 7pm UTC, so we have to correct
+		var timestamp = DateTime.fromFormat(key.replace(/T|Z|.000/g," ").trim(), "yyyy-MM-dd HH:mm:ss", { zone: timezone }).plus({hours:1})
+		
+		var format = "yyyy-MM-dd"
 
-		const seriesKey = `${year}-${month}-${day} ${hours}:${mins}:${seconds}`
+		if (timeseriesType === "Timestamp")
+			format = "yyyy-MM-dd HH:mm:ss"
+
+		const seriesKey = timestamp.toFormat(format)
 		returnVar[seriesKey] = seriesObj[key]
 
 		Object.keys(seriesObj[key]).forEach((dataPointKey) => {
@@ -66,12 +67,15 @@ function mapSeriesObj(seriesObj) {
 				returnVar[seriesKey][dataPointKey] = parseInt(seriesObj[key][dataPointKey], 10)
 			}
 		})
+
+		if (timeseriesType === "Timestamp")
+			returnVar[seriesKey].timestamp = timestamp.toISO()
 	})
 
 	return returnVar
 }
 
-function mapSeriesArray(seriesObj) {
+function mapSeriesArray(seriesObj, timeseriesType, timezone = "US/Eastern") {
 	const returnVar = []
 	Object.keys(seriesObj).forEach((key) => {
 
@@ -86,7 +90,17 @@ function mapSeriesArray(seriesObj) {
 			}
 		})
 
-		seriesItem.timestamp = key
+		// we have to do this because package `alphavantage` returns the wrong date.  8pm Eastern will be provided as 7pm UTC, so we have to correct
+		var timestamp = DateTime.fromFormat(key.replace(/T|Z|.000/g," ").trim(), "yyyy-MM-dd HH:mm:ss", { zone: timezone }).plus({hours:1})
+		timestamp = timestamp.setZone(timezone, { keepLocalTime: false })
+
+		if (timeseriesType === "Timestamp") {
+			seriesItem.timestamp = timestamp.toISO()
+			seriesItem.datetime = timestamp.toFormat("yyyy-MM-dd HH:mm:ss")
+		} else if (timeseriesType === "Date") {
+			seriesItem.date = timestamp.toFormat("yyyy-MM-dd")
+		}
+
 		returnVar.push(seriesItem)
 	})
 
@@ -105,12 +119,22 @@ function processAVError(error) {
 	}
 }
 
+function createEnum(values) {
+	const enumObject = {}
+	for (const val of values) {
+		enumObject[val] = val
+	}
+	return Object.freeze(enumObject)
+}
+
+const timeseriesType = createEnum(["Date", "Timestamp"])
 
 module.exports = {
 	setClient,
 	mapData,
 	mapQuoteObj,
 	mapSeriesObj,
+	timeseriesType,
 	mapSeriesArray,
 	processAVError
 }

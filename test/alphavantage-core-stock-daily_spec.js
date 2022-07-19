@@ -507,7 +507,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 				
 				try {
 					msg.payload.should.have.propertyByPath("data", "output_size").eql("Compact")
-					msg.payload.should.have.property("series").should.not.have.keys("2022-07-12 00:00:00")
+					msg.payload.series.should.not.have.keys("2022-07-13")
 					msg.payload.should.have.property("seriesArray").length(3)
 
 					done()
@@ -548,7 +548,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 				
 				try {
 					msg.payload.should.have.propertyByPath("data", "output_size").eql("Compact")
-					msg.payload.series.should.not.have.keys("2022-07-13 01:00:00")
+					msg.payload.series.should.not.have.keys("2022-07-13")
 					msg.payload.should.have.property("seriesArray").length(3)
 
 					done()
@@ -589,7 +589,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 				
 				try {
 					msg.payload.should.have.propertyByPath("data", "output_size").eql("Compact")
-					msg.payload.series.should.not.have.keys("2022-07-13 01:00:00")
+					msg.payload.series.should.not.have.keys("2022-07-13")
 					msg.payload.should.have.property("seriesArray").length(3)
 
 					done()
@@ -637,7 +637,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 				
 				try {
 					msg.payload.should.have.propertyByPath("data", "output_size").eql("Full size")
-					msg.payload.series.should.have.keys("2022-07-13 01:00:00")
+					msg.payload.series.should.have.keys("2022-07-13")
 					msg.payload.should.have.property("seriesArray").length(4)
 
 					done()
@@ -684,7 +684,7 @@ describe("Node: alphavantage-core-stock-daily", function () {
 				
 				try {
 					msg.payload.should.have.propertyByPath("data", "output_size").eql("Full size")
-					msg.payload.series.should.have.keys("2022-07-13 01:00:00")
+					msg.payload.series.should.have.keys("2022-07-13")
 					msg.payload.should.have.property("seriesArray").length(4)
 
 					done()
