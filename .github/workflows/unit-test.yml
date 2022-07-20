@@ -28,7 +28,7 @@ jobs: # list of things to do
     runs-on: ubuntu-latest # on which machine to run
     strategy:
       matrix:
-        node: [ 8, 10, 12, 14, 16, 18 ]
+        node: [ 14, 16, 18 ]
     steps: # list of steps
       - name: Install NodeJS
         uses: actions/setup-node@v2

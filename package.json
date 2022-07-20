@@ -1,6 +1,6 @@
 {
     "name": "@bikerpatch/node-red-contrib-alphavantage",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "Alpha Vantage node for Node-RED",
     "type": "commonjs",
     "repository": {
@@ -44,6 +44,9 @@
             "alphavantage-core-stock-quote": "src/stock-quote.js",
             "alphavantage-api-config": "src/config.js"
         }
+    },
+    "engines": {
+        "node": ">=14.0.0"
     },
     "scripts": {
         "test": "mocha \"test/**/*_spec.js\"",
