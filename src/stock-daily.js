@@ -17,6 +17,9 @@ module.exports = (RED) => {
 
 				const apiConfig = RED.nodes.getNode(config.apiConfig)
 				const api = apiUtil.setClient(msg.apiKey || apiConfig.apiKey )
+				
+				if (!config.keepApiKeyOnceUsed)
+					delete msg.apiKey
 
 				const symbol = msg.symbol || config.symbol
 				const outputSize = msg.outputSize || config.outputSize || "compact"

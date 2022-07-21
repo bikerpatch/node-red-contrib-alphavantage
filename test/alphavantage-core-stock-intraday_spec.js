@@ -308,10 +308,53 @@ describe("Node: alphavantage-core-stock-intraday", function () {
 		helper.load([avConfig, avNode], flow, () => {
 			var n2 = helper.getNode("n2")
 			var n1 = helper.getNode("n1")
-			n2.on("input", function () {
+			n2.on("input", function (msg) {
 				
 				try {
 					avStub.should.be.calledWithExactly(newApiKey)
+					msg.should.not.have.property("apiKey")
+					done()
+				} catch(err) {
+					done(err)
+				}
+			})
+			n1.receive({ apiKey: newApiKey })
+		})
+	})
+
+	it("override apiKey - keepApiKeyOnceUsed", function (done) {
+
+		var newApiKey = "mynewkey"
+
+		var flow = 
+		[
+			{
+				id: "n1",
+				type: "alphavantage-core-stock-intraday",
+				name: "stock intraday test",
+				apiConfig: "nc",
+				keepApiKeyOnceUsed: true,
+				symbol: "MSFT",
+				outputSize: "compact",
+				interval: 15,
+				wires: [["n2"]]
+			}, 
+			{
+				id: "nc",
+				type: "alphavantage-api-config",
+				name: "api key",
+				apiKey: "demo"
+			},
+			{ id: "n2", type: "helper" }
+		]
+		helper.load([avConfig, avNode], flow, () => {
+			var n2 = helper.getNode("n2")
+			var n1 = helper.getNode("n1")
+			n2.on("input", function (msg) {
+				
+				try {
+					avStub.should.be.calledWithExactly(newApiKey)
+					msg.should.have.property("apiKey", newApiKey)
 					done()
 				} catch(err) {
 					done(err)
