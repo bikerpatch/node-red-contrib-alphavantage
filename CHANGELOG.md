@@ -1,5 +1,9 @@
 # node-red-contrib-alphavantage - Change Log
 
+## [0.2.2] - 21/07/2022
+
+- [**All nodes**] - **Feature** Automatically remove the injected `msg.apiKey` value once the node is completed by default as a security measure.  All nodes get a new tickbox option to negate this feature, if the designer wants to use the same key in downstream nodes
+
 ## [0.2.1] - 19/07/2022
 
 - Better error catching of bad parameter values

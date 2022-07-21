@@ -17,6 +17,9 @@ module.exports = (RED) => {
 				const apiConfig = RED.nodes.getNode(config.apiConfig)
 				const api = apiUtil.setClient(msg.apiKey || apiConfig.apiKey )
 
+				if (!config.keepApiKeyOnceUsed)
+					delete msg.apiKey
+
 				const from = msg.fromCurrency || config.fromCurrency
 				const to = msg.toCurrency || config.toCurrency
 

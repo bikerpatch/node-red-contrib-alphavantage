@@ -4,6 +4,7 @@
         color: '#5cc7b2',
         defaults: {
             apiConfig: { value: "", type: "alphavantage-api-config" },
+            keepApiKeyOnceUsed: { value: false },
             name: { value: "" },
             interval: { value: "60" },
             symbol: { value: "" },
@@ -26,7 +27,14 @@
         labelStyle: function () {
             return this.name ? "node_label_italic" : "";
         },
-        paletteLabel: "Stock Time Series Intraday"
+        paletteLabel: "Stock Time Series Intraday",
+        oneditprepare: function () {
+
+            $("#node-input-keepApiKeyOnceUsed").on("change", function () {
+                $(this).is(":checked") === true ? $("#show-apiKey-warning").show() : $("#show-apiKey-warning").hide()
+            })
+
+        }
     });
 </script>
 
@@ -37,6 +45,12 @@
         <br />
         <small style="padding-left: 100px;">Incoming <code>msg.apiKey</code> overwrites this value</small>
     </div>
+    <div class="form-row">
+        <input type="checkbox" id="node-input-keepApiKeyOnceUsed" style="display: inline-block; width: auto; vertical-align: top;" autocomplete="off">
+        <label for="node-input-keepApiKeyOnceUsed" style="width: 90%;">Keep <code>msg.apiKey</code> when complete</label>
+        <div id="show-apiKey-warning" class="form-tips node-help" title="">Warning: This will keep <code>msg.apiKey</code> in place and the value can be read by downstream nodes.</div>
+    </div>
+    <hr>
     <div class="form-row">
         <label for="node-input-symbol"><i class="fa fa-building"></i>Symbol</label>
         <input type="text" id="node-input-symbol" placeholder="Symbol">
