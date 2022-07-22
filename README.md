@@ -8,7 +8,7 @@
 > NodeRED nodes for getting data from Alpha Vantage API.
 > This is a forked implementation of `node-red-contrib-alphavantage` as the maintainer is delayed on the pull request
 
-The node requires node.js version 12 or more recent, and has been tested with version 18.4.0
+The node requires node.js version 14 or more recent, and has been tested with version 18.4.0
 
 This node uses Alpha Vantage API and require *API key*. Claim your free API key [here](https://www.alphavantage.co/support/#api-key).
 Free API key allowes up to 5 API requests per minute and 500 requests per day.
@@ -25,9 +25,9 @@ You can install either through the Node-RED palette settings or by the following
 
 ## Usage
 
-There is 3 new nodes which is added to the `alpha vantage` category
+There are 4 nodes which are added to the `alpha vantage` category
 
-![node.png](./docs/images/node.png)
+![node.png](https://raw.githubusercontent.com/bikerpatch/node-red-contrib-alphavantage/main/docs/images/node.png)
 
 ### Capability: Stock Time Series Intraday
 
@@ -55,7 +55,7 @@ Ref: https://www.alphavantage.co/documentation/#currency-exchange
 
 ## Flow Examples
 
-![examples.png](./docs/images/examples.png)
+![examples.png](https://raw.githubusercontent.com/bikerpatch/node-red-contrib-alphavantage/main/docs/images/examples.png)
 
 For examples of how to use, see the [provided example flow](https://github.com/bikerpatch/node-red-contrib-alphavantage/tree/main/examples)
 
